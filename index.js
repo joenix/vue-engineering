@@ -22,21 +22,16 @@ export default {
   vueConfigure: vueConfigure(sniper),
   vueRunner,
   vueRegister,
-  vueStore: (Vuex, modules = {}, getters = {}) => {
-    return vueStore(
+  vueStore: (Vuex, modules = {}, getters = {}) =>
+    vueStore(
       Vuex,
       Object.assign(modules, contextual(sniper.stores, false)),
       getters
-    );
-  },
-  vueRouter,
-  vueComponent: Prefix => {
-    return vueComponent(Prefix, contextual(sniper.components, false));
-  },
+    ),
+  vueRouter: (Router, routes, configure = {}) => vueRouter(Router, routes, configure),
+  vueComponent: Prefix => vueComponent(Prefix, contextual(sniper.components, false)),
   vueStyle: () => vueStyle(contextual(sniper.styles, false)),
-  vueUtils: dependencies => {
-    return vueUtils(dependencies, contextual(sniper.utils, false));
-  },
+  vueUtils: dependencies => vueUtils(dependencies, contextual(sniper.utils, false)),
   vueHttp,
   vueApi
 };
