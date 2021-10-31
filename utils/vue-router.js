@@ -1,4 +1,7 @@
-export default (Router, routes, configure = {}) => {
+export default (Router, baseRoutes, routes, configure = {}) => {
+  Object.values(routes).map(route => baseRoutes.push(route));
+  routes = baseRoutes;
+
   const $router = new Router({
     routes,
     ...configure

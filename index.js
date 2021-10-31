@@ -9,29 +9,38 @@ import vueComponent from "./utils/vue-component.js";
 import vueStyle from "./utils/vue-style.js";
 import vueUtils from "./utils/vue-utils.js";
 import vueHttp from "./utils/vue-http.js";
+import vueI18N from "./utils/vue-i18n.js";
 import vueApi from "./utils/vue-api.js";
 
 const sniper = {
   stores: {},
   components: {},
+  routes: {},
   styles: {},
-  utils: {}
+  utils: {},
+  i18n: {}
 };
 
 export default {
   vueConfigure: vueConfigure(sniper),
   vueRunner,
   vueRegister,
-  vueStore: (Vuex, modules = {}, getters = {}) =>
+  vueStore: (Vuex, baseModule, configure = {}, modules = {}, getters = {}) =>
     vueStore(
       Vuex,
+      baseModule(configure.package),
       Object.assign(modules, contextual(sniper.stores, false)),
       getters
     ),
-  vueRouter: (Router, routes, configure = {}) => vueRouter(Router, routes, configure),
-  vueComponent: Prefix => vueComponent(Prefix, contextual(sniper.components, false)),
+  vueRouter: (Router, baseRoutes, configure = {}) =>
+    vueRouter(Router, baseRoutes, contextual(sniper.routes, false), configure),
+  vueComponent: Prefix =>
+    vueComponent(Prefix, contextual(sniper.components, false)),
   vueStyle: () => vueStyle(contextual(sniper.styles, false)),
-  vueUtils: dependencies => vueUtils(dependencies, contextual(sniper.utils, false)),
+  vueUtils: dependencies =>
+    vueUtils(dependencies, contextual(sniper.utils, false)),
   vueHttp,
+  vueI18N: (I18N, configure = {}) =>
+    vueI18N(I18N, contextual(sniper.i18n, false), configure),
   vueApi
 };
